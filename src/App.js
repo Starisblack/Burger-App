@@ -21,7 +21,7 @@ class App extends Component {
     
   render () {
 
-     console.log(process.env.REACT_APP_API_KEY)
+     
     let protectedRoutes = null
 
     if(this.props.isAuth){

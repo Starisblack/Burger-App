@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup"
 import {yupResolver} from "@hookform/resolvers/yup"
 import { TextField, FormHelperText, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
+import { format } from 'date-fns';
 
 
 
@@ -68,12 +69,17 @@ const ContactData = (props) => {
          })
 
         const updatedList = Object.assign({}, ...selectedIngredient )
+        const date = new Date();
+        console.log(date)
+        const formattedString = format(date, 'MMM d, yyyy.');
 
                 const order = {
                     ingredients: updatedList,
                     price: props.price.toFixed(2),
                     orderData: data,
-                    userId: props.userId
+                    userId: props.userId,
+                    created: formattedString,
+                    orderStatus: "pending"
                 }
 
                 

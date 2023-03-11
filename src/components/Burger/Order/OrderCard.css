@@ -1,0 +1,75 @@
+
+.orderCard {
+    width: 80%;
+    margin: 20px auto;
+    position: relative;
+    
+}
+
+.css-1oqv2c0-MuiPaper-root-MuiCard-root {
+    flex-wrap: wrap-reverse;
+    justify-content: center;
+}
+
+
+.burger-box{
+    height: 100%;
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.orderStatus{
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.pending{
+    background-color: rgb(255, 232, 172);
+}
+
+.cancelled{
+    background-color: rgb(255, 216, 207);
+}
+
+.shipped{
+    background-color: rgb(215, 239, 252);
+}
+
+.completed{
+    background-color: rgb(218, 245, 201);
+}
+
+
+
+
+@media (min-width: 500px) and (min-height: 400px) {
+    .orderCard .Burger{
+        width: 160px;
+        margin: 0 auto;
+        overflow: hidden;
+        height: 80%;
+    }
+
+    .burger-box{
+        width: 200px;
+        height: 200px;
+    }
+
+    .css-1oqv2c0-MuiPaper-root-MuiCard-root {
+        align-items: center;
+        justify-content: space-between;
+    }
+
+}
+
+@media (min-width: 1026px){
+   
+    .orderCard {
+        width: 40%;
+    }
+
+}
+
