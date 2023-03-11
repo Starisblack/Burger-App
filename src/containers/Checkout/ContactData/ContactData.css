@@ -1,0 +1,27 @@
+
+.ContactData {
+    margin: 20px auto;
+    width: 90%;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.contact-spinner{ 
+    height: 100vh;
+    display: flex;
+    align-items: center;
+
+}
+
+.ContactData .error {
+    color: red;
+}
+
+
+@media screen and (min-width: 600px) {
+    
+    .ContactData{
+        width: 500px;
+    }
+}

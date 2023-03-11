@@ -1,0 +1,23 @@
+.auth-container form{
+   padding: 2rem;
+   text-align: center;
+}
+
+.auth-container .error{
+   color: red;
+   text-align: center;
+}
+
+.auth-container .btn {
+   font-weight: bold;
+   color: #5C9210; 
+   cursor: pointer;
+   margin-left: 5px
+}
+
+@media screen and (min-width: 500px) {
+     .auth-container{
+       width: 500px;
+       margin: 0 auto;
+     }
+}
