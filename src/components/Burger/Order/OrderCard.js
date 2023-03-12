@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Burger from '../Burger';
-
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 export default function OrderCard(props) {
 
@@ -29,12 +29,8 @@ export default function OrderCard(props) {
     let showCancelButton = null;
 
     if(props.orderStatus !== "completed" && props.orderStatus !== "cancelled") {
-        showCancelButton = <Button variant="contained" color="error" onClick={props.clicked}>Cancel Order</Button>
+        showCancelButton = <Button variant="contained" color="error" onClick={props.update}>Cancel Order</Button>
     }
-
-
-
-
 
 
 
@@ -50,6 +46,10 @@ export default function OrderCard(props) {
           </Typography>
            <p>  Order Status: <strong className={orderStatusBackground.join(" ")}>{props.orderStatus}</strong> </p>
           {showCancelButton}
+
+      {props.orderStatus === "cancelled" && <Button onClick={props.delete} variant="outlined" color="error" startIcon={<DeleteForeverIcon />}>
+        Delete
+      </Button> }
         </CardContent>
       </Box>
        

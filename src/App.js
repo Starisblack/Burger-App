@@ -1,35 +1,42 @@
-import React, { Component } from 'react';
-import Checkout from './containers/Checkout/Checkout';
+import React, {  useEffect } from 'react';
+// import Checkout from './containers/Checkout/Checkout';
+import { lazy, Suspense } from 'react';
 import Layout from './components/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import { Routes, Route} from 'react-router-dom';
-import ContactData from './containers/Checkout/ContactData/ContactData';
-import Orders from "./containers/Orders/Orders"
-import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 import { checkAuthState } from './store/actions/Auth';
 import { connect } from 'react-redux';
 import NotFound from './containers/NotFound/NotFound';
 
 
-class App extends Component {
 
-    componentDidMount(){
-      this.props.onTryAutoSignIn()
-    }
+const App = (props) => {
 
     
-  render () {
+
+  const CheckOut = lazy(() => import("./containers/Checkout/Checkout"));
+  const ContactData  = lazy(() => import("./containers/Checkout/ContactData/ContactData"))
+  const Orders  = lazy(() => import("./containers/Orders/Orders"))
+  const Auth  = lazy(() => import("./containers/Auth/Auth"))
+
+
+
+    useEffect(()=> {
+      props.onTryAutoSignIn()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+  
 
      
     let protectedRoutes = null
 
-    if(this.props.isAuth){
+    if(props.isAuth){
        protectedRoutes = (<>
                    <Route path="/"    exact  element={<BurgerBuilder />}/>
-                    <Route path="/checkout" element={<Checkout />}/>
-                    <Route path="/contact"  element={  <ContactData/>} />
-                    <Route path="/orders"   element={ <Orders />} />
+                    <Route path="/checkout" element={ <Suspense fallback="loading"><CheckOut/></Suspense>}/>
+                    <Route path="/contact"  element={ <Suspense fallback="loading"> <ContactData/></Suspense>} />
+                    <Route path="/orders"   element={ <Suspense fallback="loading">  <Orders /> </Suspense>} />
                     <Route path="/logout"  exact  element={ <Logout/> } />
                     </>
              )
@@ -42,7 +49,7 @@ class App extends Component {
 
         <Routes>
           <Route path="/"    exact  element={<BurgerBuilder />}/>
-          <Route path="/login" exact   element={ <Auth/>} />
+          <Route path="/login" exact   element={ <Suspense fallback="loading"> <Auth/> </Suspense>} />
           <Route path="*" element={<NotFound/>} />
            {protectedRoutes}
         </Routes>
@@ -53,7 +60,7 @@ class App extends Component {
       </div>
     );
   }
-}
+
 
 const mapStateToProps = state => {
   return {

@@ -1,5 +1,6 @@
 import * as actionTypes from "../constant/constant"
-import Axios from "../../axios-orders"
+import { collection, addDoc, orderBy, onSnapshot, query, where } from "firebase/firestore"; 
+import { db } from "../../firebase-config";
 
 
 export const orderStart = ()=> {
@@ -15,11 +16,10 @@ export const orderEnd = () => {
 }
 
 
-export const sendOrder = (orderId, order) => {
+export const sendOrder = (id) => {
     return {
         type: actionTypes.SEND_ORDER,
-        orderData: order,
-        orderId: orderId 
+        orderId: id
     }
 }
 
@@ -31,21 +31,18 @@ export const sendFail = (err) => {
 }
 
 export const initOrder = (order, token) => {
-    return dispatch => {
+    return  dispatch => {
 
         dispatch(orderStart());
-        
-        Axios.post("/orders.json?auth=" + token, order)
-        .then(response => {
-            let orderId = response.data.name;
 
-           dispatch(sendOrder(orderId, order))
-            
-        })
-        .catch(err => {
-            console.log(err.code)
-            dispatch(sendFail(err.code));
-        })
+          addDoc(collection(db, "orders"), order).then(res => {
+                dispatch(sendOrder(res.id))
+            })
+            .catch(e => {
+                console.error("Error adding document: ", e);
+                dispatch(sendFail(e.code));
+            })
+           
     }
 }
 
@@ -70,29 +67,30 @@ export const fetchOrdersFail = (err) => {
     }
 }
 
-export const initFetchOrders = (token, userId)=> {
+export const initFetchOrders = (userId)=> {
     return dispatch => {
           
        dispatch (fetchOrdersStart());
+       const q = query(collection(db, 'orders'), orderBy('created', 'desc'), where("userId", "==", userId))
 
-       const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"'
 
-        Axios.get("/orders.json" + queryParams)
-        
-        .then(res => {
+         try {
 
-            const fetchOrders =[]
+            onSnapshot(q, (querySnapshot) => {
+   
+                const orderList = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                    ...doc.data()
+                }))
 
-            for (let key in res.data) {
-
-                 fetchOrders.push({...res.data[key], id:key });    
-            }
-
-          dispatch(fetchOrdersSuccess(fetchOrders))
+                dispatch(fetchOrdersSuccess(orderList))
+              
+           })
             
-        })
-        .catch(err => {
-           dispatch(fetchOrdersFail(err))
-        })
+         } catch (error) {
+             alert(error.message)
+             dispatch(fetchOrdersFail(error))
+         }
+
     }
 }

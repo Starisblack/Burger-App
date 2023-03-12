@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog"
@@ -9,6 +9,14 @@ const Logout = (props) => {
     const navigate = useNavigate()
    
     const [open, setOpen] = useState(true);
+    const [loading, setLoading] = useState(false)
+
+
+    useEffect(() => {
+        
+        return setLoading(false)
+    }, [])
+
 
     const handleClose = () => {
         setOpen(false);
@@ -16,7 +24,10 @@ const Logout = (props) => {
         
       };
 
-      const yesHandler = (action)=> {
+ 
+
+      const yesHandler = ()=> {
+        setLoading(true)
           props.logout()
     }
 
@@ -25,6 +36,7 @@ const Logout = (props) => {
     open={open}
     handleClose={handleClose}
     yesHandler={yesHandler}
+    loading={loading}
     />
 
 }

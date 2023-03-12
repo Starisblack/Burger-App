@@ -92,6 +92,7 @@ useEffect(()=> {
                     type="password"
                     label="password"
                     margin="normal"
+                    autoComplete="true"
                     error={!!errors.password}
                     helperText={errors.password && errors?.password?.message}
                 />

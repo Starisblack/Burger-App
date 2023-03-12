@@ -19,11 +19,7 @@ const initialState = {
         return  updateObject(state, {purchased: false})
         
         case actionTypes.SEND_ORDER: 
-                let newOrder = {
-                    ...action.orderData,
-                    orderId: action.orderId
-                }
-         return  updateObject(state, {loading: false, orders: state.orders.concat(newOrder), orderId: action.orderId, purchased: true, error: false})
+         return  updateObject(state, {loading: false, orderId: action.orderId, purchased: true, error: false})
 
         case actionTypes.SEND_FAIL: return  updateObject(state, {error: true, loading: false})
 

@@ -6,18 +6,29 @@
     
 }
 
-.css-1oqv2c0-MuiPaper-root-MuiCard-root {
+.orderCard .MuiPaper-root {
     flex-wrap: wrap-reverse;
-    justify-content: center;
+   
 }
 
 
+
 .burger-box{
-    height: 100%;
-    width: 70%;
+    padding-top: 1rem;
+    height: 200px;
+    width: 80%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    margin: 0 auto;
+}
+
+.orderCard .Burger {
+    margin: 0;
+    height: 90%;
+    overflow: scroll;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
 }
 
 .orderStatus{
@@ -49,7 +60,7 @@
     .orderCard .Burger{
         width: 160px;
         margin: 0 auto;
-        overflow: hidden;
+        overflow: scroll;
         height: 80%;
     }
 
@@ -58,7 +69,7 @@
         height: 200px;
     }
 
-    .css-1oqv2c0-MuiPaper-root-MuiCard-root {
+    .orderCard .MuiPaper-root {
         align-items: center;
         justify-content: space-between;
     }

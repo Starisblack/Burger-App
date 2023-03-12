@@ -3,22 +3,22 @@ import { connect } from "react-redux";
 import OrderCard from "../../components/Burger/Order/OrderCard";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import { initFetchOrders } from "../../store/actions/order";
-import { ref, set } from "firebase/database";
-import { db } from "../../firebase-config";
 import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
-
-
+import orderActions from "./orderActions/orderActions";
 
 
 const Orders = (props ) => {
    
     const [open, setOpen] = useState(false);
     const [orderId, setOrderId] = useState(null)
+    const {deleteOrder, updateOrder} = orderActions()
+    const [isdelete, setIsdelete] = useState(false)
+    const [loading, setLoading] = useState(false)
 
 
     useEffect(()=> {
         
-         props.fetchOrders(props.token, props.userId);
+         props.fetchOrders(props.userId);
 
             // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -27,28 +27,55 @@ const Orders = (props ) => {
         setOpen(false);    
       };
 
-const yesHandler = ()=> {
-          
-     const selectedOrder = props.orders.find(order => order.id === orderId)
 
-        set(ref(db, 'orders/' + orderId), {...selectedOrder, orderStatus: "cancelled"
-          })
-          .then(() => {
-           console.log( "Data saved successfully!")
-           setOpen(false)
-          })
-          .catch((error) => {
-            alert( " The write failed...")
+
+const yesHandler = async ()=> {
+       setLoading(true)
+    if(isdelete){
+        try {
+            await deleteOrder(orderId)
             setOpen(false)
-            window.location.reload(true);
-          });
+            setLoading(false)
+        
+        } catch (error) {
+            alert(error)
+            setOpen(false)
+            setLoading(false)
+           
+        }
+    } else { 
+        
+    try {
+        await updateOrder(orderId)
+        setOpen(false)
+        setLoading(false)
+    
+    } catch (error) {
+        alert(error)
+        setOpen(false)
+        setLoading(false)
+       
+    }
     }
 
-    const handleClick = (id) => {
+
+    }
+
+    const handleClick = (id, buttonClick) => {
+        
+        if(buttonClick === "delete"){
+            setIsdelete(true)
+        } else {
+            setIsdelete(false)
+        }
      setOrderId(id)
      setOpen(prev => !prev)
-          
+   
     }
+
+  
+
+    
 
     
 
@@ -64,22 +91,24 @@ const yesHandler = ()=> {
                 <OrderCard 
                 key={order.id} 
                 ings={order.ingredients}
-                date={order.created}
+                date={order.date}
                 price={order.price}
                 orderStatus={order.orderStatus}
-                clicked={()=>handleClick(order.id)}
+                update={()=>handleClick(order.id)}
+                delete={()=>handleClick(order.id, "delete")}
                  />
             )
           })  
         
         }
 
-        <ConfirmationDialog 
-        title="Do you want to cancel this order?"
-        desc="Refund will take 2 to 5 business days"
+    <ConfirmationDialog 
+        title={isdelete ? "Delete order from the list" :"Do you want to cancel this order?"}
+        desc={isdelete ? null : "Refund will take 2 to 5 business days"}
         open={open}
         handleClose={handleClose}
         yesHandler={yesHandler}
+        loading={loading}
     />
 
         </>
@@ -98,7 +127,7 @@ const mapStateToProps = state =>{
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchOrders: (token, userId)=> dispatch(initFetchOrders(token, userId))
+        fetchOrders: (userId)=> dispatch(initFetchOrders(userId))
     }}
 
 

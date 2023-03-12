@@ -4,13 +4,16 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import CircularProgress from '@mui/joy/CircularProgress';
+import "./ConfirmationDialog.css"
 
  function ConfirmationDialog(props) {
 
+  
 
 
   return (
-    <div>
+    <div className="confirmation-container">
       <Dialog
         open={props.open}
         onClose={props.handleClose}
@@ -27,9 +30,9 @@ import DialogTitle from '@mui/material/DialogTitle';
         </DialogContent>
         <DialogActions>
           <Button onClick={props.handleClose}>Cancel</Button>
-          <Button onClick={props.yesHandler} autoFocus>
+          {props.loading ? <CircularProgress variant="solid" thickness={2} size="sm" /> : <Button onClick={props.yesHandler} autoFocus>
             Yes
-          </Button>
+          </Button> }
         </DialogActions>
       </Dialog>
     </div>

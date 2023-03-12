@@ -56,7 +56,7 @@ const ContactData = (props) => {
 
 
 
-    const orderHandler = async (data) => {
+    const orderHandler = (data) => {
 
 
 
@@ -68,23 +68,24 @@ const ContactData = (props) => {
             return  { [igKey] : props.ings[igKey] }
          })
 
-        const updatedList = Object.assign({}, ...selectedIngredient )
-        const date = new Date();
-        console.log(date)
-        const formattedString = format(date, 'MMM d, yyyy.');
+         const date = new Date();
 
+       const formattedString = format(date, 'MMM d, yyyy.');
+
+        const updatedList = Object.assign({}, ...selectedIngredient )
                 const order = {
                     ingredients: updatedList,
                     price: props.price.toFixed(2),
                     orderData: data,
                     userId: props.userId,
-                    created: formattedString,
+                    created: new Date(),
+                    date: formattedString,
                     orderStatus: "pending"
                 }
 
                 
 
-        await  props.initOrder(order, props.token);
+       props.initOrder(order);
         reset();
 
 
@@ -192,7 +193,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        initOrder: (order, token)=> dispatch(initOrder(order, token)),
+        initOrder: (order)=> dispatch(initOrder(order)),
         endOrder: () => dispatch(orderEnd())
        
     }
