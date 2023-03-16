@@ -142,13 +142,13 @@ const ContactData = (props) => {
                     helperText={errors.postalCode && errors?.postalCode?.message}
                 />
                 
-                <FormControl variant="standard"  margin="normal"  fullWidth error={!!errors.deliveryMethod}>
+                <FormControl   margin="normal"  fullWidth error={!!errors.deliveryMethod}>
                 <InputLabel id="demo-simple-select-standard-label">Delivery Method</InputLabel>
                 <Select
                   {...register("deliveryMethod")}
                    labelId="demo-simple-select-standard-label"
                    id="demo-simple-select-standard"
-                   label="Age"
+                   label="Delivery Method"
                    defaultValue = ""
                 >
                     <MenuItem value="Fastest">Fastest</MenuItem>

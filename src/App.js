@@ -8,6 +8,7 @@ import Logout from './containers/Auth/Logout/Logout';
 import { checkAuthState } from './store/actions/Auth';
 import { connect } from 'react-redux';
 import NotFound from './containers/NotFound/NotFound';
+import Spinner from './components/UI/Spinner/Spinner';
 
 
 
@@ -34,9 +35,9 @@ const App = (props) => {
     if(props.isAuth){
        protectedRoutes = (<>
                    <Route path="/"    exact  element={<BurgerBuilder />}/>
-                    <Route path="/checkout" element={ <Suspense fallback="loading"><CheckOut/></Suspense>}/>
-                    <Route path="/contact"  element={ <Suspense fallback="loading"> <ContactData/></Suspense>} />
-                    <Route path="/orders"   element={ <Suspense fallback="loading">  <Orders /> </Suspense>} />
+                    <Route path="/checkout" element={ <Suspense fallback={<Spinner top="30vh"/>}><CheckOut/></Suspense>}/>
+                    <Route path="/contact"  element={ <Suspense fallback={<Spinner top="30vh"/>}> <ContactData/></Suspense>} />
+                    <Route path="/orders"   element={ <Suspense fallback={<Spinner top="30vh"/>}>  <Orders /> </Suspense>} />
                     <Route path="/logout"  exact  element={ <Logout/> } />
                     </>
              )
