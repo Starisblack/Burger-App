@@ -50,7 +50,7 @@ const App = (props) => {
 
         <Routes>
           <Route path="/"    exact  element={<BurgerBuilder />}/>
-          <Route path="/login" exact   element={ <Suspense fallback="loading"> <Auth/> </Suspense>} />
+          <Route path="/login" exact   element={ <Suspense fallback={Spinner top="30vh"/>} > <Auth/> </Suspense>} />
           <Route path="*" element={<NotFound/>} />
            {protectedRoutes}
         </Routes>
